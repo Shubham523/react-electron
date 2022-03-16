@@ -6,7 +6,7 @@ import * as XLSX from 'xlsx';
 import { useState } from 'react';
 
 function App() {
-   const [data,setData] = useState();
+   const [data,setData] = useState([]);
 
   const handleUpload = name => e => {
     
@@ -22,11 +22,13 @@ function App() {
 
         /* Convert array to json*/
         const dataParse = XLSX.utils.sheet_to_json(ws);
-        var total = 0;
+        setData(dataParse);
+        console.log(data);
+        /*var total = 0;
         for(var i = 0; i < 5; i++) {
           total =  total + parseFloat(dataParse[i].CPd,8);
         }
-        console.log(total);
+        console.log(total);*/
         
     };
     reader.readAsBinaryString(f)
@@ -37,6 +39,9 @@ function App() {
     <div className="App">
 
      <div className="col-12">
+    {data.map((value,index) => 
+     (<h6>{value.Polish}</h6>)
+  )}
        <div className="row">
          <div className="col-4">
          <div className="form-group">
@@ -46,8 +51,9 @@ function App() {
                 
                 type="file"
                 name="image"
-                accept="image"
+                accept="xlsx"
                 placeholder="Choose a File"
+                onChange={handleUpload("excel")}
                 width="100%"
                 className="photo_input"
 
